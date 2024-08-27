@@ -3,11 +3,12 @@ $(document).ready(function () {
   const $message = $("#message");
   const $textarea = $("#textarea");
   const $start = $("#start");
+  const $select = $("#select");
   let map = {};
   let prel = {};
-  let notes;
+  let notes = [];
   let $spans;
-  let currentLayout = "dvorak";
+  let currentLayout = $select.val();
   const synth = new Tone.Synth().toDestination();
   let isCorrect = true;
   async function init() {
@@ -29,8 +30,13 @@ $(document).ready(function () {
         $p.text("Finish");
         return;
       }
+
       notes = prel.shift();
-      notes = convertNotesToCharacters(notes, [...notes], map);
+      displayNotes(notes, [...notes], map);
+    }
+
+    function displayNotes(originalSubArr, copySubArr, map) {
+      let notes = convertNotesToCharacters(originalSubArr, copySubArr, map);
       $p.contents().remove();
       notes.forEach((note) => {
         const $span = $("<span>").text(note);
@@ -38,7 +44,15 @@ $(document).ready(function () {
       });
       $spans = $p.children();
     }
+
     nextNotes();
+
+    $select.on("change", () => {
+      currentLayout = $select.val();
+      console.log(`current layout ${currentLayout}`);
+      $textarea.val("");
+      displayNotes(notes, ...[notes], map);
+    });
 
     $start.on("click", async () => {
       $textarea.focus();
