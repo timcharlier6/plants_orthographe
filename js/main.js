@@ -7,7 +7,7 @@ $(document).ready(function () {
   let prel = {};
   let notes;
   let $spans;
-  let currentLayout = "azerty";
+  let currentLayout = "dvorak";
   const synth = new Tone.Synth().toDestination();
   let isCorrect = true;
   async function init() {
@@ -52,7 +52,6 @@ $(document).ready(function () {
 
     $textarea.on("input", (e) => {
       let tone = convertTextInputToTone(e.originalEvent.data, map);
-      console.log(tone);
       let inputText = $textarea.val();
 
       inputText = inputText.replace(/ /g, "␣");
@@ -63,6 +62,7 @@ $(document).ready(function () {
           $span.removeClass("underline");
           if (inputText[index] !== $span.text()) {
             $span.css("color", "red");
+            playTone(null);
           } else {
             $span.css("color", "green");
             playTone(tone);
@@ -107,8 +107,8 @@ $(document).ready(function () {
     return tone;
   }
 
+  let lastTriggerTime = 0;
   function playTone(tone) {
-    let lastTriggerTime = 0;
     const minGap = 50;
     const now = Tone.now() * 1000; // Convert to milliseconds
     if (now - lastTriggerTime > minGap && tone) {
