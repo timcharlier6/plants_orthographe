@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.3.2/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.37/Tone.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        min-height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        font-family: "Calibri", sans-serif;
+      }
+
+      ul,
+      li,
+      a {
+        list-style-type: none;
+        display: inline;
+      }
+
+      a:hover {
+        text-decoration: underline;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body class="w-full h-full flex flex-col justify-center">
+    <header class="bg-blue-700 text-white p-4 dark:bg-blue-300 dark:text-black">
+      <h1 class="text-center font-extrabold text-3xl h-full my-auto">
+        <i class="fa-solid fa-guitar"></i>
+      </h1>
+    </header>
+    <main
+      class="flex-grow bg-gray-100 p-4 2xl:py-20 dark:bg-gray-900 dark:text-white"
+    ></main>
+    <footer
+      class="bg-blue-700 text-white p-4 dark:bg-blue-300 dark:text-black flex flex-row justify-between flex-wrap"
+    >
+      <ul class="w-4/6 flex flex-row justify-between text-wrap">
+        Powered by
+        <li><a class="" href="https://fontawesome.com">Font-Awesome</a></li>
+        <li><a href="https://tailwindcss.com">Tailwind</a></li>
+        <li><a href="https://tonejs.github.io/">Tone.js</a></li>
+        <li><a href="https://netlify.com">Netlify</a></li>
+      </ul>
+      <p>
+        <i class="fa-regular fa-copyright"></i>
+        <a href="https://main--portfolio-tim.netlify.app/">Tim Charlier</a>
+        <time id="date"></time>
+      </p>
+    </footer>
+  </body>
+</html>
