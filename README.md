@@ -1,85 +1,61 @@
-# Simple Metronome
+How to find a useful classical music midi file?
 
-This is a simple web-based metronome built using HTML, CSS, JavaScript, jQuery, and the Tone.js library. The application allows users to select a musical note, octave, and tempo to generate a metronome sound. The metronome also includes a stopwatch to track elapsed time while it is running.
-[Click here to visit the website](https://simple-metronome-app.netlify.app/)
+    Find classical music midi file on International Music Score Library Project (IMSLP).
+    Reduce the music to a strict monophony on a single staff with the musical notation software MuseScore.
 
-## Table of Contents
+How to parse midi to JSON?
 
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [File Structure](#file-structure)
-- [Credits](#credits)
+    Install node package @tonejs/midi.
+    Write a nodeJS script to parse all notes into a formatted JSON.
 
-## Features
+How to bind computer keys to musical notes?
 
-- **Play Musical Notes:** Choose a musical note (A-G) with an optional sharp (#) and an octave (1-7) to play the note at the selected tempo.
-- **Adjustable Tempo:** Set the tempo in beats per minute (BPM) between 20 and 250 BPM.
-- **Stopwatch:** Tracks the elapsed time while the metronome is playing.
-- **Responsive Design:** Uses Tailwind CSS for styling to ensure the application works well on different screen sizes.
+    Write a JSON file to store key mappings in different layouts for each distinct musical note:
+        Octave 2 (C2): Uses the number row.
+        Octave 3 (C3): Uses the bottom row (Z, X, C, etc.).
+        Octave 4 (C4): Uses the home row (A, S, D, etc.).
+        Octave 5 (C5): Uses the top row (Q, W, E, etc.).
 
-## Technologies Used
+    Sharp Pitches: The sharp pitches (like C#2, D#3, etc.) are mapped to the capitalized version of the natural pitch.
 
-- **HTML5:** Markup language for structuring the content.
-- **CSS3:** Used for basic styling, with Tailwind CSS for utility-first styling.
-- **JavaScript:** Handles logic, event listeners, and DOM manipulation.
-- **jQuery:** Simplifies JavaScript operations, like DOM manipulation and event handling.
-- **Tone.js:** A Web Audio framework that facilitates the creation of interactive music applications.
-- **Font Awesome:** Provides the icons used in the UI.
+How to play notes on user input?
 
-## Getting Started
+    Write a html document linked to the ToneJS librairy.
+    Write a javascript let the user make sound with the keyboard :
+        Create a textarea element with an event listener.
+        Fetch the json mappings to translate the input to a note.
+        Pass this note as argument to a ToneJS object.
 
-To run the Simple Metronome locally, follow these steps:
+Overview
 
-1. **Clone the Repository:**
+The Alphabetical Piano is an interactive typing practice tool that combines musical melodies with typing challenges. Users can practice typing while listening to melodies and seeing their performance in real-time. The game supports both AZERTY and QWERTY keyboard layouts, which can be toggled using a button.
+Features
 
-   ```bash
-   git clone https://github.com/yourusername/simple-metronome.git
-   cd simple-metronome
-   ```
+    Dynamic Layout Switching: Switch between AZERTY and QWERTY layouts.
+    Random Melodies: Load and display random melodies from a JSON file.
+    Real-Time Feedback: Highlight correct and incorrect characters as you type.
+    Audio Feedback: Hear notes played when typing characters.
+    Game Over and Restart: Alerts and allows for restarting the game if the typing is incorrect.
 
-2. **Open the `index.html` File:**
-   You can open the `index.html` file in any modern web browser to start the application.
+Demo
 
-3. **Ensure Internet Connection:**
-   Since the project uses CDN links for external libraries like Tailwind CSS, Font Awesome, jQuery, and Tone.js, make sure you have an active internet connection.
+Visit the site
+Files
 
-## Usage
+    index.html: Main HTML file.
+    script.js: JavaScript file containing the game logic.
+    styles.css: CSS file for styling the game (not included in the code provided, but referenced).
+    ./json/melodies.json: JSON file with melody data.
+    ./json/mappings.json: JSON file mapping notes to characters.
 
-1. **Select Note and Octave:**
+Usage
 
-   - Enter a note (A-G) in the input field. You can optionally add a `#` for sharp notes (e.g., C#).
-   - Enter an octave between 1 and 7.
+    Toggle Layout: Click the "Switch to QWERTY" or "Switch to AZERTY" button to change the keyboard layout.
+    Play the Game: Start typing the melody shown on the screen. Correctly typed characters will be highlighted in green, and incorrect characters in red.
+    Audio Feedback: Hear the note corresponding to each character as you type.
+    Game Over: If the typing is incorrect, you'll receive a "GAME OVER" alert and can restart the game.
 
-2. **Set Tempo:**
+Configuration
 
-   - Enter the desired tempo in beats per minute (BPM) between 20 and 250.
-
-3. **Start the Metronome:**
-
-   - Click the "Play" button to start the metronome. The selected note will play at the specified tempo, and the stopwatch will begin tracking the elapsed time.
-
-4. **Stop the Metronome:**
-   - Click the "Stop" button to stop the metronome and reset the stopwatch.
-
-## File Structure
-
-- `index.html`: The main HTML file containing the structure of the web page.
-- `favicon.ico`: The favicon for the application.
-- `README.md`: This readme file.
-- **External Libraries:**
-  - [Tone.js](https://tonejs.github.io/): Used to generate and control sound.
-  - [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework.
-  - [jQuery](https://jquery.com/): A fast, small, and feature-rich JavaScript library.
-  - [Font Awesome](https://fontawesome.com/): A popular icon toolkit.
-
-## Credits
-
-- **Font Awesome**: For the icons used in the application.
-- **Tailwind CSS**: For the utility-first CSS framework.
-- **Tone.js**: For providing an easy-to-use Web Audio framework.
-- **jQuery**: For simplifying JavaScript tasks.
-- **Netlify**: For hosting services.
-
----
+    The current layout is stored in the browser's localStorage.
+    You can modify the melody and mappings by updating melodies.json and mappings.json.
