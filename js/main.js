@@ -9,6 +9,9 @@ $(document).ready(function () {
   let prel = {};
   let notes;
   let $spans;
+  let currentLayout = "azerty";
+  let originalSubArr = [];
+  let copySubArr = [];
   const synth = new Tone.Synth().toDestination();
   let isCorrect = true;
   async function init() {
@@ -25,15 +28,15 @@ $(document).ready(function () {
   init();
 
   function waitForFetch() {
-    console.log(map);
-    console.log(prel);
+    originalSubArr = prel.shift();
+    notes = convertNotesToCharacters(originalSubArr, [...originalSubArr], map);
+    console.log(notes);
 
     function nextNotes() {
-      if (allNotes.length === 0) {
+      if (prel.length === 0) {
         $p.text("Finish");
         return;
       }
-      notes = allNotes.shift();
       $p.contents().remove();
       notes.forEach((note) => {
         const $span = $("<span>").text(note);
@@ -78,5 +81,30 @@ $(document).ready(function () {
         nextNotes();
       }
     });
+  }
+
+  function convertNotesToCharacters(originalSubArr, copySubArr, map) {
+    for (let i = 0; i < originalSubArr.length; i++) {
+      for (let j = 0; j < map.length; j++) {
+        if (map[j]["note"] === originalSubArr[i]) {
+          copySubArr[i] = map[j]["text"][currentLayout];
+        }
+      }
+    }
+    return copySubArr;
+  }
+
+  function convertTextInputToTone(e) {
+    for (let i = 0; i < map.length; i++) {
+      if (e === map[i]["text"][currentLayout]) {
+        tone = map[i]["note"];
+      }
+    }
+  }
+
+  function copyrights() {
+    const currentYear = new Date().getFullYear();
+    const copyRight = document.getElementById("copyright");
+    copyRight.textContent = `© ${currentYear} Tim Charlier`;
   }
 });
