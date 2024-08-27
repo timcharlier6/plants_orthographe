@@ -44,16 +44,20 @@ $(document).ready(function () {
       $textarea.focus();
       await Tone.start();
       console.log("audio is ready");
-      $message.text("Start typing");
-      setTimeout(() => {
-        $message.text("");
-      }, 3000);
+      if (prel.length !== 0) {
+        $message.text(
+          "Please start typing the characters appearing on the screen.",
+        );
+        setTimeout(() => {
+          $message.text("");
+        }, 5000);
+      }
     });
 
     $textarea.on("input", (e) => {
       let tone = convertTextInputToTone(e.originalEvent.data, map);
       let inputText = $textarea.val();
-
+      console.log(`tone ${tone}`);
       inputText = inputText.replace(/ /g, "␣");
 
       $spans.each((index, span) => {
@@ -62,10 +66,13 @@ $(document).ready(function () {
           $span.removeClass("underline");
           if (inputText[index] !== $span.text()) {
             $span.css("color", "red");
-            playTone(null);
           } else {
             $span.css("color", "green");
-            playTone(tone);
+            if (
+              inputText[inputText.length - 1] === notes[index] &&
+              inputText.length === index + 1
+            )
+              playTone(tone);
           }
         } else if (index === inputText.length) {
           $span.addClass("underline");
@@ -108,18 +115,17 @@ $(document).ready(function () {
   }
 
   let lastTriggerTime = 0;
-  function playTone(tone) {
+  function playTone(sound) {
+    console.log(`sound ${sound}`);
     const minGap = 50;
     const now = Tone.now() * 1000; // Convert to milliseconds
-    if (now - lastTriggerTime > minGap && tone) {
-      synth.triggerAttackRelease(tone, "4n");
+    if (now - lastTriggerTime > minGap && sound) {
+      synth.triggerAttackRelease(sound, "4n");
       lastTriggerTime = now;
     }
   }
 
-  function copyrights() {
-    const currentYear = new Date().getFullYear();
-    const copyRight = document.getElementById("copyright");
-    copyRight.textContent = `© ${currentYear} Tim Charlier`;
-  }
+  const currentYear = new Date().getFullYear();
+  const $copyRight = $("#date");
+  $copyRight.text(currentYear);
 });

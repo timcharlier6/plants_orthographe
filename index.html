@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <title>Alphabetical Piano</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="stylesheet" type="" href="./css/style.css" />
     <link
@@ -22,19 +22,23 @@
   <body class="w-full min-h-full flex flex-col justify-center">
     <header class="bg-blue-700 text-white p-4 dark:bg-blue-300 dark:text-black">
       <h1 class="text-center font-extrabold text-3xl h-full my-auto">
+        Alphabetical Piano
         <i class="fa-solid fa-guitar"></i>
       </h1>
     </header>
     <main
       class="flex-grow bg-gray-100 p-4 2xl:py-20 dark:bg-gray-900 dark:text-white justify-center flex flex-col items-center relative"
     >
-      <p id="message" class="absolute top-20 left-50 text-pink-600"></p>
+      <p
+        id="message"
+        class="absolute top-20 left-50 text-pink-600 italic text-2xl"
+      ></p>
       <p
         id="p"
-        class="border-blue-100 border-opacity-30 opacity-80 text-center text-4xl letter-spacing-2"
+        class="border-blue-100 border-opacity-30 opacity-80 text-center text-8xl letter-spacing-2"
       ></p>
       <textarea id="textarea" class="opacity-0 w-0 h-10"></textarea>
-      <button class="text-center absolute left-50 bottom-5" id="start">
+      <button class="text-center absolute left-50 bottom-10" id="start">
         START
       </button>
     </main>
