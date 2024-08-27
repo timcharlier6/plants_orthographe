@@ -16,27 +16,24 @@ $(document).ready(function () {
 
   $textarea.on("input", (e) => {
     let inputText = $textarea.val();
-    let lastInputLength = 0;
 
     inputText = inputText.replace(/ /g, "␣");
 
     $spans.each((index, span) => {
       const $span = $(span);
-      if (lastInputLength > inputText.length) {
-        $spans.eq(lastInputLength).removeClass("underline");
-        $span.eq(lastInputLength).css("color", "");
-      }
       if (index < inputText.length) {
-        $spans.eq(index + 1).addClass("underline");
         $span.removeClass("underline");
-
         if (inputText[index] !== $span.text()) {
           $span.css("color", "red");
         } else {
           $span.css("color", "green");
         }
-        lastInputLength = inputText.length;
-        console.log(lastInputLength, inputText.length, $span.text());
+      } else if (index === inputText.length) {
+        $span.addClass("underline");
+        $span.css("color", "");
+      } else {
+        $span.css("color", "");
+        $span.removeClass("underline");
       }
     });
     if (inputText.length >= $spans.length) {
