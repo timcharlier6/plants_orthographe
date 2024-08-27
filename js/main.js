@@ -1,17 +1,13 @@
 $(document).ready(function () {
   const $p = $("#p");
+  const $message = $("#message");
   const $textarea = $("#textarea");
   const $start = $("#start");
-  const notes1 = "qdjaejaeqdjaejae␣".split("");
-  const notes2 = "aejaeqdjaejaeqdj␣".split("");
-  const allNotes = [notes1, notes2];
   let map = {};
   let prel = {};
   let notes;
   let $spans;
   let currentLayout = "azerty";
-  let originalSubArr = [];
-  let copySubArr = [];
   const synth = new Tone.Synth().toDestination();
   let isCorrect = true;
   async function init() {
@@ -28,15 +24,13 @@ $(document).ready(function () {
   init();
 
   function waitForFetch() {
-    originalSubArr = prel.shift();
-    notes = convertNotesToCharacters(originalSubArr, [...originalSubArr], map);
-    console.log(notes);
-
     function nextNotes() {
       if (prel.length === 0) {
         $p.text("Finish");
         return;
       }
+      notes = prel.shift();
+      notes = convertNotesToCharacters(notes, [...notes], map);
       $p.contents().remove();
       notes.forEach((note) => {
         const $span = $("<span>").text(note);
@@ -46,11 +40,19 @@ $(document).ready(function () {
     }
     nextNotes();
 
-    $start.on("click", () => {
+    $start.on("click", async () => {
       $textarea.focus();
+      await Tone.start();
+      console.log("audio is ready");
+      $message.text("Start typing");
+      setTimeout(() => {
+        $message.text("");
+      }, 3000);
     });
 
     $textarea.on("input", (e) => {
+      let tone = convertTextInputToTone(e.originalEvent.data, map);
+      console.log(tone);
       let inputText = $textarea.val();
 
       inputText = inputText.replace(/ /g, "␣");
@@ -63,6 +65,7 @@ $(document).ready(function () {
             $span.css("color", "red");
           } else {
             $span.css("color", "green");
+            playTone(tone);
           }
         } else if (index === inputText.length) {
           $span.addClass("underline");
@@ -94,11 +97,23 @@ $(document).ready(function () {
     return copySubArr;
   }
 
-  function convertTextInputToTone(e) {
+  function convertTextInputToTone(e, map) {
+    let tone = "";
     for (let i = 0; i < map.length; i++) {
       if (e === map[i]["text"][currentLayout]) {
         tone = map[i]["note"];
       }
+    }
+    return tone;
+  }
+
+  function playTone(tone) {
+    let lastTriggerTime = 0;
+    const minGap = 50;
+    const now = Tone.now() * 1000; // Convert to milliseconds
+    if (now - lastTriggerTime > minGap && tone) {
+      synth.triggerAttackRelease(tone, "4n");
+      lastTriggerTime = now;
     }
   }
 
