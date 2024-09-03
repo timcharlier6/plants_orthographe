@@ -7,8 +7,29 @@ $(document).ready(function () {
   let map = {};
   let prel = {};
   let notes = [];
+  let currentLayout = "azerty";
   let $spans;
-  let currentLayout = $select.val();
+
+  let userInput = prompt(
+    "Please enter the layout you want to use: choose from qwerty, dvorak, azerty",
+  );
+
+  if (!userInput) {
+    prompt(
+      "Please enter the layout you want to use:\n Choose from qwerty, dvorak, or azerty\n Svp entrez le clavier que vous voulez utiliser: choisissez entre qwerty, dvorak, ou azerty.",
+    );
+  } else if (prompt === "qwerty") {
+    currentLayout = "qwerty";
+  } else if (prompt === "dvorak") {
+    currentLayout = "dvorak";
+  } else if (prompt === "azerty") {
+    currentLayout = "azerty";
+  } else {
+    prompt(
+      "Please enter the layout you want to use:\n Choose from qwerty, dvorak, or azerty\n Svp entrez le clavier que vous voulez utiliser: choisissez entre qwerty, dvorak, ou azerty.",
+    );
+  }
+
   const synth = new Tone.Synth().toDestination();
   let isCorrect = true;
   async function init() {
@@ -32,11 +53,7 @@ $(document).ready(function () {
       }
 
       notes = prel.shift();
-      displayNotes(notes, [...notes], map);
-    }
-
-    function displayNotes(originalSubArr, copySubArr, map) {
-      let notes = convertNotesToCharacters(originalSubArr, copySubArr, map);
+      notes = convertNotesToCharacters(notes, [...notes], map);
       $p.contents().remove();
       notes.forEach((note) => {
         const $span = $("<span>").text(note);
@@ -46,13 +63,6 @@ $(document).ready(function () {
     }
 
     nextNotes();
-
-    $select.on("change", () => {
-      currentLayout = $select.val();
-      console.log(`current layout ${currentLayout}`);
-      $textarea.val("");
-      displayNotes(notes, ...[notes], map);
-    });
 
     $start.on("click", async () => {
       $textarea.focus();
