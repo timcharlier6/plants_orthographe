@@ -18,11 +18,11 @@ $(document).ready(function () {
     prompt(
       "Please enter the layout you want to use:\n Choose from qwerty, dvorak, or azerty\n Svp entrez le clavier que vous voulez utiliser: choisissez entre qwerty, dvorak, ou azerty.",
     );
-  } else if (prompt === "qwerty") {
+  } else if (userInput === "qwerty") {
     currentLayout = "qwerty";
-  } else if (prompt === "dvorak") {
+  } else if (userInput === "dvorak") {
     currentLayout = "dvorak";
-  } else if (prompt === "azerty") {
+  } else if (userInput === "azerty") {
     currentLayout = "azerty";
   } else {
     prompt(
