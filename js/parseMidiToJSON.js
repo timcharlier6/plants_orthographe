@@ -13,13 +13,14 @@ function parseJsonData(midi) {
   function chunkArray(array, size) {
     const chunkedArr = [];
     for (let i = 0; i < array.length; i += size) {
-      let arr = array.slice(i, i + size);
-      chunkedArr.push(arr);
+      let chunks = array.slice(i, i + size);
+      chunks.push("space");
+      chunkedArr.push(chunks);
     }
     return chunkedArr;
   }
   const allNotes = midi.tracks[0].notes.map((note) => note.name);
-  const chunkedNotes = chunkArray(allNotes, 4);
+  const chunkedNotes = chunkArray(allNotes, 8);
 
   return chunkedNotes;
 }

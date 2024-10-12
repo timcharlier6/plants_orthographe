@@ -36,7 +36,9 @@ $(document).ready(function () {
     try {
       [map, prel] = await Promise.all([
         fetch("./json/mappings.json").then((response) => response.json()),
-        fetch("./json/prelude.json").then((response) => response.json()),
+        fetch("./json/cello_suites/prelude1.json").then((response) =>
+          response.json(),
+        ),
       ]);
     } catch (error) {
       console.error(error);
