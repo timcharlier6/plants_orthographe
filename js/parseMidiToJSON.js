@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const { Midi } = require("@tonejs/midi");
 
 // Function to parse a MIDI file and return a Midi object
@@ -8,16 +9,15 @@ function parseMidiFile(filepath) {
   return midi;
 }
 
-function chunkArray(array, size) {
-  const chunkedArr = [];
-  for (let i = 0; i < array.length; i += size) {
-    let arr = array.slice(i, i + size);
-    chunkedArr.push(arr);
-  }
-  return chunkedArr;
-}
-
 function parseJsonData(midi) {
+  function chunkArray(array, size) {
+    const chunkedArr = [];
+    for (let i = 0; i < array.length; i += size) {
+      let arr = array.slice(i, i + size);
+      chunkedArr.push(arr);
+    }
+    return chunkedArr;
+  }
   const allNotes = midi.tracks[0].notes.map((note) => note.name);
   const chunkedNotes = chunkArray(allNotes, 4);
 
@@ -25,8 +25,11 @@ function parseJsonData(midi) {
 }
 
 // Function to write data to a JSON file
-function writeJsonFile(filePath, data) {
-  fs.writeFile(filePath, JSON.stringify(data, null, 2), (err) => {
+function writeJsonFile(midiFilePath, data) {
+  const baseName = path.basename(midiFilePath, path.extname(midiFilePath));
+  const jsonFilePath = `./json/${baseName}.json`;
+
+  fs.writeFile(jsonFilePath, JSON.stringify(data, null, 2), (err) => {
     if (err) {
       console.log("Error writing file:", err);
     } else {
@@ -48,7 +51,7 @@ if (!midiFilePath) {
 const midi = parseMidiFile(midiFilePath);
 
 // Extract note names
-const inventions = parseJsonData(midi);
+const parsedJson = parseJsonData(midi);
 
 // Write the extracted data to an output JSON file
-writeJsonFile("./json/inventions2.json", inventions);
+writeJsonFile(midiFilePath, parsedJson);
