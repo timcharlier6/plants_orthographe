@@ -22,23 +22,13 @@
   <body class="w-full min-h-full flex flex-col justify-center">
     <header class="bg-blue-700 text-white p-4 dark:bg-blue-300 dark:text-black">
       <h1 class="text-center font-extrabold text-3xl h-full my-auto">
-        Alphabetical Piano
-        <i class="fa-solid fa-guitar"></i>
+        La machine à écrire
+        <i class="fa-solid fa-music"></i>
       </h1>
     </header>
     <main
       class="flex-grow bg-gray-100 p-4 2xl:py-20 dark:bg-gray-900 dark:text-white justify-center flex flex-col items-center relative"
     >
-      <!--
-      <select
-        id="select"
-        class="bg-gray-50 text-center border absolute top-0 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      >
-        <option value="azerty" selected>AZERTY</option>
-        <option value="qwerty">QWERTY</option>
-        <option value="dvorak">DVORAK</option>
-      </select>
-      -->
       <p
         id="message"
         class="absolute top-20 left-50 text-pink-600 italic text-2xl"
@@ -47,26 +37,10 @@
         id="p"
         class="border-blue-100 border-opacity-30 opacity-80 text-center text-8xl letter-spacing-2"
       ></p>
-      <textarea id="textarea" class="opacity-0 w-0 h-10"></textarea>
-      <button class="text-center absolute left-50 bottom-10" id="start">
-        START
-      </button>
+      <textarea id="textarea" class="opacity-0 w-0 h-10" autofocus></textarea>
     </main>
     <footer
       class="bg-blue-700 text-white p-4 dark:bg-blue-300 dark:text-black flex flex-row justify-between flex-wrap"
-    >
-      <ul class="w-4/6 flex flex-row justify-between text-wrap">
-        Powered by
-        <li><a href="https://fontawesome.com">Font-Awesome</a></li>
-        <li><a href="https://tailwindcss.com">Tailwind</a></li>
-        <li><a href="https://tonejs.github.io/">Tone.js</a></li>
-        <li><a href="https://netlify.com">Netlify</a></li>
-      </ul>
-      <p>
-        <i class="fa-regular fa-copyright"></i>
-        <a href="https://main--portfolio-tim.netlify.app/">Tim Charlier</a>
-        <time id="date"></time>
-      </p>
-    </footer>
+    ></footer>
   </body>
 </html>

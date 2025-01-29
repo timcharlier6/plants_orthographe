@@ -5,86 +5,175 @@ $(document).ready(function () {
   const $start = $("#start");
   const $select = $("#select");
   let map = {};
-  let prel = {};
-  let notes = [];
+  let word = "";
   let currentLayout = "azerty";
   let $spans;
-
-  let userInput = prompt(
-    "Please enter the layout you want to use: choose from qwerty, dvorak, azerty",
-  );
-
-  if (!userInput) {
-    prompt(
-      "Please enter the layout you want to use:\n Choose from qwerty, dvorak, or azerty\n Svp entrez le clavier que vous voulez utiliser: choisissez entre qwerty, dvorak, ou azerty.",
-    );
-  } else if (userInput === "qwerty") {
-    currentLayout = "qwerty";
-  } else if (userInput === "dvorak") {
-    currentLayout = "dvorak";
-  } else if (userInput === "azerty") {
-    currentLayout = "azerty";
-  } else {
-    prompt(
-      "Please enter the layout you want to use:\n Choose from qwerty, dvorak, or azerty\n Svp entrez le clavier que vous voulez utiliser: choisissez entre qwerty, dvorak, ou azerty.",
-    );
-  }
+  const fruitsEtLegumes = [
+    "pomme",
+    "banane",
+    "orange",
+    "fraise",
+    "raisin",
+    "mangue",
+    "ananas",
+    "avocat",
+    "citron",
+    "melon",
+    "pastèque",
+    "pêche",
+    "poire",
+    "prune",
+    "framboise",
+    "myrtille",
+    "mûre",
+    "cassis",
+    "kiwi",
+    "figue",
+    "grenade",
+    "abricot",
+    "cerise",
+    "noix de coco",
+    "papaye",
+    "fruit de la passion",
+    "goyave",
+    "nectarine",
+    "clémentine",
+    "mandarine",
+    "pamplemousse",
+    "tomate",
+    "carotte",
+    "pomme de terre",
+    "oignon",
+    "ail",
+    "brocoli",
+    "chou-fleur",
+    "concombre",
+    "laitue",
+    "épinard",
+    "poivron",
+    "courgette",
+    "aubergine",
+    "artichaut",
+    "asperge",
+    "haricot vert",
+    "petit pois",
+    "maïs",
+    "riz",
+    "blé",
+    "quinoa",
+    "avoine",
+    "orge",
+    "seigle",
+    "kamut",
+    "épeautre",
+    "millet",
+    "sorgho",
+    "amarante",
+    "sarrasin",
+    "chia",
+    "lin",
+    "tournesol",
+    "citrouille",
+    "courge",
+    "potimarron",
+    "topinambour",
+    "panais",
+    "betterave",
+    "radis",
+    "navet",
+    "céleri",
+    "persil",
+    "coriandre",
+    "menthe",
+    "basilic",
+    "thym",
+    "romarin",
+    "laurier",
+    "origan",
+    "sauge",
+    "estragon",
+    "ciboulette",
+    "aneth",
+    "cardamome",
+    "gingembre",
+    "curcuma",
+    "cannelle",
+    "clou de girofle",
+    "noix de muscade",
+    "poivre",
+    "piment",
+    "vanille",
+    "cacao",
+    "café",
+    "thé",
+    "olive",
+    "noisette",
+    "amande",
+    "cacahuète",
+    "pistache",
+    "noix",
+    "châtaigne",
+    "pignon de pin",
+    "macadamia",
+    "pécan",
+    "brugnon",
+    "cranberry",
+    "dattes",
+    "figues séchées",
+    "pruneaux",
+    "raisins secs",
+  ];
 
   const synth = new Tone.Synth().toDestination();
   let isCorrect = true;
+
   async function init() {
     try {
-      [map, prel] = await Promise.all([
-        fetch("./json/mappings.json").then((response) => response.json()),
-        fetch("./json/cello_suites/prelude1.json").then((response) =>
-          response.json(),
-        ),
-      ]);
+      const response = await fetch("./json/mappings.json");
+      map = await response.json();
     } catch (error) {
       console.error(error);
     }
     waitForFetch();
   }
+
   init();
 
+  function getRandomKeyAndMutate(arr) {
+    if (arr.length === 0) {
+      return null;
+    }
+
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    const removedElement = arr.splice(randomIndex, 1);
+
+    return removedElement[0];
+  }
+
   function waitForFetch() {
-    function nextNotes() {
-      if (prel.length === 0) {
-        $p.text("Finish");
+    $textarea.focus();
+    Tone.start();
+
+    function nextword() {
+      if (fruitsEtLegumes.length === 0) {
+        window.location.reload();
         return;
       }
 
-      notes = prel.shift();
-      notes = convertNotesToCharacters(notes, [...notes], map);
+      word = getRandomKeyAndMutate(fruitsEtLegumes);
       $p.contents().remove();
-      notes.forEach((note) => {
-        const $span = $("<span>").text(note);
+      for (let i = 0; i < word.length; i++) {
+        const $span = $("<span>").text(word[i]);
         $p.append($span);
-      });
+      }
       $spans = $p.children();
     }
 
-    nextNotes();
-
-    $start.on("click", async () => {
-      $textarea.focus();
-      await Tone.start();
-      console.log("audio is ready");
-      if (prel.length !== 0) {
-        $message.text(
-          "Please start typing the characters appearing on the screen.",
-        );
-        setTimeout(() => {
-          $message.text("");
-        }, 5000);
-      }
-    });
+    nextword();
 
     $textarea.on("input", (e) => {
       let tone = convertTextInputToTone(e.originalEvent.data, map);
       let inputText = $textarea.val();
-      console.log(`tone ${tone}`);
-      inputText = inputText.replace(/ /g, "␣");
 
       $spans.each((index, span) => {
         const $span = $(span);
@@ -95,7 +184,7 @@ $(document).ready(function () {
           } else {
             $span.css("color", "green");
             if (
-              inputText[inputText.length - 1] === notes[index] &&
+              inputText[inputText.length - 1] === word[index] &&
               inputText.length === index + 1
             )
               playTone(tone);
@@ -108,26 +197,12 @@ $(document).ready(function () {
           $span.removeClass("underline");
         }
       });
-      if (
-        inputText.length >= $spans.length &&
-        inputText[inputText.length - 1] === "␣"
-      ) {
+      if (inputText.length >= $spans.length) {
         $spans.css("color", "");
         $textarea.val("");
-        nextNotes();
+        nextword();
       }
     });
-  }
-
-  function convertNotesToCharacters(originalSubArr, copySubArr, map) {
-    for (let i = 0; i < originalSubArr.length; i++) {
-      for (let j = 0; j < map.length; j++) {
-        if (map[j]["note"] === originalSubArr[i]) {
-          copySubArr[i] = map[j]["text"][currentLayout];
-        }
-      }
-    }
-    return copySubArr;
   }
 
   function convertTextInputToTone(e, map) {
@@ -142,7 +217,6 @@ $(document).ready(function () {
 
   let lastTriggerTime = 0;
   function playTone(sound) {
-    console.log(`sound ${sound}`);
     const minGap = 50;
     const now = Tone.now() * 1000; // Convert to milliseconds
     if (now - lastTriggerTime > minGap && sound) {
