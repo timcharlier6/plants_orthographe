@@ -185,7 +185,7 @@ $(document).ready(function () {
   $(document).one("click", function () {
     $("textarea").focus();
   });
-  $(document).one("click touchstart", function (event) {
+  $(document).one("touchstart", function (event) {
     event.preventDefault();
     $("textarea").focus();
   });
