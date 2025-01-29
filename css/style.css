@@ -38,6 +38,9 @@ span {
   opacity: 0.2;
 }
 
+.correct {
+  opacity: 1;
+}
 
 .underline {
   text-decoration: underline;

@@ -3,6 +3,7 @@ $(document).ready(function () {
   const $textarea = $("#textarea");
   let map = {};
   let word = "";
+  let DEBOUNCE = 150;
   let currentLayout = "azerty";
   let $spans;
 
@@ -143,16 +144,38 @@ $(document).ready(function () {
       $p.append($span);
     }
     $spans = $p.children();
+    console.log($spans);
   }
 
   nextword();
   let inputTimeOut;
+  let index = 0;
 
   $textarea.on("input", (e) => {
     clearTimeout(inputTimeOut);
     inputTimeOut = setTimeout(() => {
       let inputText = $textarea.val().toLowerCase().trim();
+      if (index < $spans.length) {
+        const $currentSpan = $spans.eq(index);
+        const letter = $currentSpan.text();
+        if (letter == inputText[inputText.length - 1]) {
+          $currentSpan.addClass("correct");
+        }
+        $currentSpan.removeClass("underline");
+        index++;
+        if (index < $spans.length) {
+          $spans.eq(index).addClass("underline");
+        } else {
+          $textarea.val("");
+          nextword();
+          index = 0;
+        }
+      } else {
+        $textarea.val("");
+        index = 0;
+      }
 
+      /*
       $spans.each((index, span) => {
         const $span = $(span);
         if (index < inputText.length) {
@@ -175,7 +198,8 @@ $(document).ready(function () {
         $textarea.val("");
         nextword();
       }
-    }, 300);
+      */
+    }, DEBOUNCE);
   });
 
   const currentYear = new Date().getFullYear();
