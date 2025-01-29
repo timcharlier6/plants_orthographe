@@ -114,6 +114,13 @@ $(document).ready(function () {
     "pruneaux",
     "raisins",
   ];
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  shuffleArray(fruitsEtLegumes);
 
   const synth = new Tone.Synth().toDestination();
 
@@ -129,19 +136,14 @@ $(document).ready(function () {
 
   init();
 
-  function getRandomKeyAndMutate(arr) {
-    if (arr.length === 0) {
-      return null;
-    }
-
-    const randomIndex = Math.floor(Math.random() * arr.length);
-    const removedElement = arr.splice(randomIndex, 1);
-
-    return removedElement[0];
-  }
-
   function waitForFetch() {
     $textarea.focus();
+    if (
+      typeof Android !== "undefined" &&
+      typeof Android.showKeyboard !== "undefined"
+    ) {
+      Android.showKeyboard();
+    }
     Tone.start();
 
     function nextword() {
@@ -150,7 +152,7 @@ $(document).ready(function () {
         return;
       }
 
-      word = getRandomKeyAndMutate(fruitsEtLegumes);
+      word = fruitsEtLegumes.pop();
       $p.contents().remove();
       for (let i = 0; i < word.length; i++) {
         const $span = $("<span>").text(word[i]);
@@ -163,40 +165,44 @@ $(document).ready(function () {
     }
 
     nextword();
+    let inputTimeOut;
 
     $textarea.on("input", (e) => {
-      let tone = convertTextInputToTone(e.originalEvent.data, map);
-      let inputText = $textarea.val().toLowerCase();
+      clearTimeout(inputTimeOut);
+      inputTimeOut = setTimeout(() => {
+        let tone = convertTextInputToTone(e.originalEvent.data, map);
+        let inputText = $textarea.val().toLowerCase();
 
-      $spans.each((index, span) => {
-        const $span = $(span);
-        if (index < inputText.length) {
-          $span.removeClass("underline");
-          if (inputText[index] !== $span.text()) {
-            $span.css("color", "red");
-            $span.css("opacity", "1");
+        $spans.each((index, span) => {
+          const $span = $(span);
+          if (index < inputText.length) {
+            $span.removeClass("underline");
+            if (inputText[index] !== $span.text()) {
+              $span.css("color", "red");
+              $span.css("opacity", "1");
+            } else {
+              $span.css("color", "green");
+              $span.css("opacity", "1");
+              if (
+                inputText[inputText.length - 1] === word[index] &&
+                inputText.length === index + 1
+              )
+                playTone(tone);
+            }
+          } else if (index === inputText.length) {
+            $span.addClass("underline");
+            $span.css("color", "");
           } else {
-            $span.css("color", "green");
-            $span.css("opacity", "1");
-            if (
-              inputText[inputText.length - 1] === word[index] &&
-              inputText.length === index + 1
-            )
-              playTone(tone);
+            $span.css("color", "");
+            $span.removeClass("underline");
           }
-        } else if (index === inputText.length) {
-          $span.addClass("underline");
-          $span.css("color", "");
-        } else {
-          $span.css("color", "");
-          $span.removeClass("underline");
+        });
+        if (inputText.length >= $spans.length) {
+          $spans.css("color", "");
+          $textarea.val("");
+          nextword();
         }
-      });
-      if (inputText.length >= $spans.length) {
-        $spans.css("color", "");
-        $textarea.val("");
-        nextword();
-      }
+      }, 50);
     });
   }
 
@@ -225,6 +231,10 @@ $(document).ready(function () {
   $copyRight.text(currentYear);
 
   $(document).one("click", function () {
+    $("textarea").focus();
+  });
+  $(document).one("click touchstart", function (event) {
+    event.preventDefault(); // Prevent click from also firing
     $("textarea").focus();
   });
 });
