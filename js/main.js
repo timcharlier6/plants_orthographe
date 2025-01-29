@@ -185,10 +185,10 @@ $(document).ready(function () {
   $(document).one("click", function () {
     $("textarea").focus();
   });
-  /*
   $(document).one("click touchstart", function (event) {
-    event.preventDefault(); 
+    event.preventDefault();
     $("textarea").focus();
-  })
-  */
+  });
+  /*
+   */
 });
