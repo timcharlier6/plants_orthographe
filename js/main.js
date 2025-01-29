@@ -1,9 +1,6 @@
 $(document).ready(function () {
   const $p = $("#p");
-  const $message = $("#message");
   const $textarea = $("#textarea");
-  const $start = $("#start");
-  const $select = $("#select");
   let map = {};
   let word = "";
   let currentLayout = "azerty";
@@ -20,21 +17,17 @@ $(document).ready(function () {
     "citron",
     "melon",
     "pastèque",
-    "pêche",
     "poire",
     "prune",
     "framboise",
     "myrtille",
-    "mûre",
     "cassis",
     "kiwi",
     "figue",
     "grenade",
     "abricot",
     "cerise",
-    "noix de coco",
     "papaye",
-    "fruit de la passion",
     "goyave",
     "nectarine",
     "clémentine",
@@ -42,7 +35,7 @@ $(document).ready(function () {
     "pamplemousse",
     "tomate",
     "carotte",
-    "pomme de terre",
+    "patate",
     "oignon",
     "ail",
     "brocoli",
@@ -55,9 +48,8 @@ $(document).ready(function () {
     "aubergine",
     "artichaut",
     "asperge",
-    "haricot vert",
-    "petit pois",
-    "maïs",
+    "haricot",
+    "pois",
     "riz",
     "blé",
     "quinoa",
@@ -98,8 +90,7 @@ $(document).ready(function () {
     "gingembre",
     "curcuma",
     "cannelle",
-    "clou de girofle",
-    "noix de muscade",
+    "noix",
     "poivre",
     "piment",
     "vanille",
@@ -113,19 +104,17 @@ $(document).ready(function () {
     "pistache",
     "noix",
     "châtaigne",
-    "pignon de pin",
     "macadamia",
     "pécan",
     "brugnon",
     "cranberry",
     "dattes",
-    "figues séchées",
+    "figues",
     "pruneaux",
-    "raisins secs",
+    "raisins",
   ];
 
   const synth = new Tone.Synth().toDestination();
-  let isCorrect = true;
 
   async function init() {
     try {
@@ -164,6 +153,9 @@ $(document).ready(function () {
       $p.contents().remove();
       for (let i = 0; i < word.length; i++) {
         const $span = $("<span>").text(word[i]);
+        if (i === 0) {
+          $span.addClass("underline");  
+        }
         $p.append($span);
       }
       $spans = $p.children();
@@ -181,8 +173,10 @@ $(document).ready(function () {
           $span.removeClass("underline");
           if (inputText[index] !== $span.text()) {
             $span.css("color", "red");
+            $span.css("opacity", "1");
           } else {
             $span.css("color", "green");
+            $span.css("opacity", "1");
             if (
               inputText[inputText.length - 1] === word[index] &&
               inputText.length === index + 1
