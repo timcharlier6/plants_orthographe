@@ -182,10 +182,10 @@ $(document).ready(function () {
   const $copyRight = $("#date");
   $copyRight.text(currentYear);
 
-  /*
   $(document).one("click", function () {
     $("textarea").focus();
   });
+  /*
   $(document).one("click touchstart", function (event) {
     event.preventDefault(); 
     $("textarea").focus();
