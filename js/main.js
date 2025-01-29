@@ -171,7 +171,12 @@ $(document).ready(function () {
       clearTimeout(inputTimeOut);
       inputTimeOut = setTimeout(() => {
         let tone = convertTextInputToTone(e.originalEvent.data, map);
-        let inputText = $textarea.val().toLowerCase();
+        let inputText = $textarea
+          .val()
+          .toLowerCase()
+          .trim()
+          .normalize("NFD")
+          .replace(/[\u0000-\u001F\u007F-\u009F]/g, ""); // Remove control characters
 
         $spans.each((index, span) => {
           const $span = $(span);
