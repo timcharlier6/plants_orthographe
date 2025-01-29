@@ -175,7 +175,7 @@ $(document).ready(function () {
         $textarea.val("");
         nextword();
       }
-    }, 150);
+    }, 200);
   });
 
   const currentYear = new Date().getFullYear();
