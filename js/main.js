@@ -223,8 +223,9 @@ $(document).ready(function () {
   const currentYear = new Date().getFullYear();
   const $copyRight = $("#date");
   $copyRight.text(currentYear);
-});
+
 
 $(document).one("click", function() {
     $("textarea").focus();
+});
 });
