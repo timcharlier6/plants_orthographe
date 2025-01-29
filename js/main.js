@@ -122,114 +122,69 @@ $(document).ready(function () {
   }
   shuffleArray(fruitsEtLegumes);
 
-  const synth = new Tone.Synth().toDestination();
-
-  async function init() {
-    try {
-      const response = await fetch("./json/mappings.json");
-      map = await response.json();
-    } catch (error) {
-      console.error(error);
-    }
-    waitForFetch();
+  $textarea.focus();
+  if (
+    typeof Android !== "undefined" &&
+    typeof Android.showKeyboard !== "undefined"
+  ) {
+    Android.showKeyboard();
   }
 
-  init();
-
-  function waitForFetch() {
-    $textarea.focus();
-    if (
-      typeof Android !== "undefined" &&
-      typeof Android.showKeyboard !== "undefined"
-    ) {
-      Android.showKeyboard();
-    }
-    Tone.start();
-
-    function nextword() {
-      if (fruitsEtLegumes.length === 0) {
-        window.location.reload();
-        return;
-      }
-
-      word = fruitsEtLegumes.pop();
-      $p.contents().remove();
-      for (let i = 0; i < word.length; i++) {
-        const $span = $("<span>").text(word[i]);
-        if (i === 0) {
-          $span.addClass("underline");
-        }
-        $p.append($span);
-      }
-      $spans = $p.children();
+  function nextword() {
+    if (fruitsEtLegumes.length === 0) {
+      window.location.reload();
+      return;
     }
 
-    nextword();
-    let inputTimeOut;
+    word = fruitsEtLegumes.pop();
+    $p.contents().remove();
+    for (let i = 0; i < word.length; i++) {
+      const $span = $("<span>").text(word[i]);
+      if (i === 0) {
+        $span.addClass("underline");
+      }
+      $p.append($span);
+    }
+    $spans = $p.children();
+  }
 
-    $textarea.on("input", (e) => {
-      clearTimeout(inputTimeOut);
-      inputTimeOut = setTimeout(() => {
-        let tone = convertTextInputToTone(e.originalEvent.data, map);
-        let inputText = $textarea
-          .val()
-          .toLowerCase()
-          .trim()
-          .normalize("NFD")
-          .replace(/[\u0000-\u001F\u007F-\u009F]/g, ""); // Remove control characters
+  nextword();
+  let inputTimeOut;
 
-        $spans.each((index, span) => {
-          const $span = $(span);
-          if (index < inputText.length) {
-            $span.removeClass("underline");
-            if (inputText[index] !== $span.text()) {
-              $span.css("color", "red");
-              $span.css("opacity", "1");
-            } else {
-              $span.css("color", "green");
-              $span.css("opacity", "1");
-              if (
-                inputText[inputText.length - 1] === word[index] &&
-                inputText.length === index + 1
-              )
-                playTone(tone);
-            }
-          } else if (index === inputText.length) {
-            $span.addClass("underline");
-            $span.css("color", "");
+  $textarea.on("input", (e) => {
+    clearTimeout(inputTimeOut);
+    inputTimeOut = setTimeout(() => {
+      let inputText = $textarea
+        .val()
+        .toLowerCase()
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
+
+      $spans.each((index, span) => {
+        const $span = $(span);
+        if (index < inputText.length) {
+          $span.removeClass("underline");
+          if (inputText[index] !== $span.text()) {
+            index = 0;
           } else {
-            $span.css("color", "");
-            $span.removeClass("underline");
+            $span.css("opacity", "1");
           }
-        });
-        if (inputText.length >= $spans.length) {
-          $spans.css("color", "");
-          $textarea.val("");
-          nextword();
+        } else if (index === inputText.length) {
+          $span.addClass("underline");
+          $span.css("color", "");
+        } else {
+          $span.css("color", "");
+          $span.removeClass("underline");
         }
-      }, 50);
-    });
-  }
-
-  function convertTextInputToTone(e, map) {
-    let tone = "";
-    for (let i = 0; i < map.length; i++) {
-      if (e && e.toLowerCase() === map[i]["text"][currentLayout]) {
-        tone = map[i]["note"];
+      });
+      if (inputText.length >= $spans.length) {
+        $spans.css("color", "");
+        $textarea.val("");
+        nextword();
       }
-    }
-    return tone;
-  }
-
-  let lastTriggerTime = 0;
-  function playTone(sound) {
-    const minGap = 50;
-    const now = Tone.now() * 1000; // Convert to milliseconds
-    if (now - lastTriggerTime > minGap && sound) {
-      synth.triggerAttackRelease(sound, "4n");
-      lastTriggerTime = now;
-    }
-  }
+    }, 50);
+  });
 
   const currentYear = new Date().getFullYear();
   const $copyRight = $("#date");
@@ -243,4 +198,3 @@ $(document).ready(function () {
     $("textarea").focus();
   });
 });
-
