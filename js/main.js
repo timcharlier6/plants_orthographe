@@ -155,7 +155,7 @@ $(document).ready(function () {
       for (let i = 0; i < word.length; i++) {
         const $span = $("<span>").text(word[i]);
         if (i === 0) {
-          $span.addClass("underline");  
+          $span.addClass("underline");
         }
         $p.append($span);
       }
@@ -166,7 +166,7 @@ $(document).ready(function () {
 
     $textarea.on("input", (e) => {
       let tone = convertTextInputToTone(e.originalEvent.data, map);
-      let inputText = $textarea.val();
+      let inputText = $textarea.val().toLowerCase();
 
       $spans.each((index, span) => {
         const $span = $(span);
@@ -224,8 +224,8 @@ $(document).ready(function () {
   const $copyRight = $("#date");
   $copyRight.text(currentYear);
 
-
-$(document).one("click", function() {
+  $(document).one("click", function () {
     $("textarea").focus();
+  });
 });
-});
+
