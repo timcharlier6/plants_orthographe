@@ -203,7 +203,7 @@ $(document).ready(function () {
   function convertTextInputToTone(e, map) {
     let tone = "";
     for (let i = 0; i < map.length; i++) {
-      if (e.toLowerCase() === map[i]["text"][currentLayout]) {
+      if (e && e.toLowerCase() === map[i]["text"][currentLayout]) {
         tone = map[i]["note"];
       }
     }
