@@ -123,12 +123,9 @@ $(document).ready(function () {
   shuffleArray(fruitsEtLegumes);
 
   $textarea.focus();
-  if (
-    typeof Android !== "undefined" &&
-    typeof Android.showKeyboard !== "undefined"
-  ) {
-    Android.showKeyboard();
-  }
+  setTimeout(() => {
+    $textarea.focus();
+  }, 100);
 
   function nextword() {
     if (fruitsEtLegumes.length === 0) {
@@ -154,12 +151,7 @@ $(document).ready(function () {
   $textarea.on("input", (e) => {
     clearTimeout(inputTimeOut);
     inputTimeOut = setTimeout(() => {
-      let inputText = $textarea
-        .val()
-        .toLowerCase()
-        .trim()
-        .normalize("NFD")
-        .replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
+      let inputText = $textarea.val().toLowerCase().trim();
 
       $spans.each((index, span) => {
         const $span = $(span);
@@ -183,18 +175,20 @@ $(document).ready(function () {
         $textarea.val("");
         nextword();
       }
-    }, 50);
+    }, 150);
   });
 
   const currentYear = new Date().getFullYear();
   const $copyRight = $("#date");
   $copyRight.text(currentYear);
 
+  /*
   $(document).one("click", function () {
     $("textarea").focus();
   });
   $(document).one("click touchstart", function (event) {
-    event.preventDefault(); // Prevent click from also firing
+    event.preventDefault(); 
     $("textarea").focus();
-  });
+  })
+  */
 });
