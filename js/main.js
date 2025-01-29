@@ -5,6 +5,7 @@ $(document).ready(function () {
   let word = "";
   let currentLayout = "azerty";
   let $spans;
+
   const fruitsEtLegumes = [
     "pomme",
     "banane",
@@ -222,4 +223,8 @@ $(document).ready(function () {
   const currentYear = new Date().getFullYear();
   const $copyRight = $("#date");
   $copyRight.text(currentYear);
+});
+
+$(document).one("click", function() {
+    $("textarea").focus();
 });
