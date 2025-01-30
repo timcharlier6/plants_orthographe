@@ -164,7 +164,7 @@ $(function () {
           $currentSpan.addClass("correct");
         }
         $currentSpan.removeClass("underline");
-        index = $textarea[0].selectionStart;
+        index = e.target.selectionStart;
         if (index < $spans.length) {
           $spans.eq(index).addClass("underline");
         } else {
