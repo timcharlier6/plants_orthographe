@@ -6,7 +6,7 @@ $(function () {
   const $p = $("#p");
   const $textarea = $("#textarea");
   let word = "";
-  let DEBOUNCE = 100;
+  let DEBOUNCE = 50;
   let $spans;
 
   const fruitsEtLegumes = [
@@ -146,7 +146,6 @@ $(function () {
       $p.append($span);
     }
     $spans = $p.children();
-    console.log($spans);
   }
 
   nextword();
@@ -159,6 +158,7 @@ $(function () {
       let inputText = $textarea.val().toLowerCase().trim();
       if (index < $spans.length) {
         const $currentSpan = $spans.eq(index);
+        if (index > 0) $spans.eq(0).removeClass("underline");
         const letter = $currentSpan.text();
         if (letter == inputText[index]) {
           $currentSpan.addClass("correct");
@@ -169,13 +169,10 @@ $(function () {
           $spans.eq(index).addClass("underline");
         } else {
           $textarea.val("");
+          index = 0;
           nextword();
         }
-      } else {
-        $textarea.val("");
-        index = 0;
       }
-
     }, DEBOUNCE);
   });
 

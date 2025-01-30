@@ -10,7 +10,7 @@
           "skipFiles": [  // Moved skipFiles inside the configuration
               "<node_internals>/**",
               "**/jquery.js",
-              "**/tailwind.css"
+              "**/tailwind.css",
           ]
       }
   ]
