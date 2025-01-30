@@ -148,48 +148,58 @@ $(document).ready(function () {
   }
 
   nextword();
+  let inputTimeOut;
+  let index = 0;
 
   $textarea.on("input", (e) => {
-    const inputText = $textarea.val().toLowerCase().trim();
-
-    if (inputText === "") {
-      index = 0;
-      $spans.removeClass("correct");
-      $spans.removeClass("underline");
-      $spans.eq(0).addClass("underline");
-      return;
-    }
-
-    for (let i = 0; i < Math.min(inputText.length, $spans.length); i++) {
-      const $currentSpan = $spans.eq(i);
-      const letter = $currentSpan.text();
-
-      const normalizedInputLetter = inputText[i]
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-      const normalizedSpanLetter = letter
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-
-      if (normalizedSpanLetter === normalizedInputLetter) {
-        $currentSpan.addClass("correct");
+    clearTimeout(inputTimeOut);
+    inputTimeOut = setTimeout(() => {
+      let inputText = $textarea.val().toLowerCase().trim();
+      if (index < $spans.length) {
+        const $currentSpan = $spans.eq(index);
+        const letter = $currentSpan.text();
+        if (letter == inputText[inputText.length - 1]) {
+          $currentSpan.addClass("correct");
+        }
+        $currentSpan.removeClass("underline");
+        index++;
+        if (index < $spans.length) {
+          $spans.eq(index).addClass("underline");
+        } else {
+          $textarea.val("");
+          nextword();
+          index = Math.min(inputText.length, $spans.length) - 1;
+        }
       } else {
-        $currentSpan.removeClass("correct");
+        $textarea.val("");
+        index = 0;
       }
-    }
 
-    $spans.removeClass("underline");
-    if (inputText.length < $spans.length) {
-      $spans.eq(inputText.length).addClass("underline");
-    } else if (inputText.length >= $spans.length) {
-      $spans.eq($spans.length - 1).addClass("underline");
-    }
-
-    if (inputText.length >= $spans.length) {
-      $textarea.val("");
-      nextword();
-      index = 0;
-    }
+      /*
+      $spans.each((index, span) => {
+        const $span = $(span);
+        if (index < inputText.length) {
+          $span.removeClass("underline");
+          if (inputText[index] !== $span.text()) {
+            index = 0;
+          } else {
+            $span.css("opacity", "1");
+          }
+        } else if (index === inputText.length) {
+          $span.addClass("underline");
+          $span.css("color", "");
+        } else {
+          $span.css("color", "");
+          $span.removeClass("underline");
+        }
+      });
+      if (inputText.length >= $spans.length) {
+        $spans.css("color", "");
+        $textarea.val("");
+        nextword();
+      }
+      */
+    }, DEBOUNCE);
   });
 
   const currentYear = new Date().getFullYear();
