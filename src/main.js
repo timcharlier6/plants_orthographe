@@ -160,11 +160,9 @@ $(function () {
         const $currentSpan = $spans.eq(index);
         if (index > 0) $spans.eq(0).removeClass("underline");
         const letter = $currentSpan.text();
-        if (letter == inputText[index]) {
-          $currentSpan.addClass("correct");
-        }
+        $currentSpan.addClass("correct");
         $currentSpan.removeClass("underline");
-        index = e.target.selectionStart;
+        index++;
         if (index < $spans.length) {
           $spans.eq(index).addClass("underline");
         } else {
