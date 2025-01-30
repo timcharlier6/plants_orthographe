@@ -1,10 +1,12 @@
-$(document).ready(function () {
+import "./style.css";
+import $ from "jquery";
+window.$ = $;
+
+$(function () {
   const $p = $("#p");
   const $textarea = $("#textarea");
-  let map = {};
   let word = "";
-  let DEBOUNCE = 150;
-  let currentLayout = "azerty";
+  let DEBOUNCE = 100;
   let $spans;
 
   const fruitsEtLegumes = [
@@ -123,9 +125,9 @@ $(document).ready(function () {
   }
   shuffleArray(fruitsEtLegumes);
 
-  $textarea.focus();
+  $textarea.trigger("focus");
   setTimeout(() => {
-    $textarea.focus();
+    $textarea.trigger("focus");
   }, 100);
 
   function nextword() {
@@ -149,7 +151,7 @@ $(document).ready(function () {
 
   nextword();
   let inputTimeOut;
-  let index = 1;
+  let index = 0;
 
   $textarea.on("input", (e) => {
     clearTimeout(inputTimeOut);
@@ -162,44 +164,18 @@ $(document).ready(function () {
           $currentSpan.addClass("correct");
         }
         $currentSpan.removeClass("underline");
-        index = inputText.length - 1;
-        console.log(index);
+        index = inputText.length;
         if (index < $spans.length) {
           $spans.eq(index).addClass("underline");
         } else {
           $textarea.val("");
-          index = 1;
           nextword();
         }
       } else {
         $textarea.val("");
-        index = 1;
+        index = 0;
       }
 
-      /*
-      $spans.each((index, span) => {
-        const $span = $(span);
-        if (index < inputText.length) {
-          $span.removeClass("underline");
-          if (inputText[index] !== $span.text()) {
-            index = 0;
-          } else {
-            $span.css("opacity", "1");
-          }
-        } else if (index === inputText.length) {
-          $span.addClass("underline");
-          $span.css("color", "");
-        } else {
-          $span.css("color", "");
-          $span.removeClass("underline");
-        }
-      });
-      if (inputText.length >= $spans.length) {
-        $spans.css("color", "");
-        $textarea.val("");
-        nextword();
-      }
-      */
     }, DEBOUNCE);
   });
 
@@ -208,11 +184,11 @@ $(document).ready(function () {
   $copyRight.text(currentYear);
 
   $(document).one("click", function () {
-    $("textarea").focus();
+    $("textarea").trigger("focus");
   });
   $(document).one("touchstart", function (event) {
     event.preventDefault();
-    $("textarea").focus();
+    $("textarea").trigger("focus");
   });
   /*
    */

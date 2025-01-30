@@ -2,21 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>La machine à écrire</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="stylesheet" type="" href="./css/style.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.3.2/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="./js/main.js"></script>
+    <link href="/dist/styles.css" rel="stylesheet" />
   </head>
   <body class="w-full min-h-full flex flex-col justify-center">
     <main
@@ -28,5 +17,7 @@
       ></p>
       <textarea id="textarea" class="opacity-0 w-0 h-10" autofocus></textarea>
     </main>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
+
