@@ -180,10 +180,7 @@ $(function () {
   const $copyRight = $("#date");
   $copyRight.text(currentYear);
 
-  $(document).one("click", function () {
-    $("textarea").trigger("focus");
-  });
-  $(document).one("touchstart", function (event) {
+  $(document).on("click touchstart", function (event) {
     event.preventDefault();
     $("textarea").trigger("focus");
   });
