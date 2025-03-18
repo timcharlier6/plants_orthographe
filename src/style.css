@@ -2,81 +2,80 @@
 @import "tailwindcss";
 
 :root {
-  --width_underline: 1rem;
+    --width_underline: 1rem;
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html {
-  height: 100%;
-  width: 100vw;
-  overflow: hidden;
-  font-family: "ABeeZee", sans-serif;
+    height: 100%;
+    width: 100vw;
+    overflow: hidden;
+    font-family: "ABeeZee", sans-serif;
 }
 
 ul,
 li,
 a {
-  list-style-type: none;
-  display: inline;
+    list-style-type: none;
+    display: inline;
 }
 
 a:hover {
-  text-decoration: underline;
-  opacity: 0.8;
+    text-decoration: underline;
+    opacity: 0.8;
 }
 
 button,
 input {
-  font-size: inherit;
+    font-size: inherit;
 }
 
 span {
-  opacity: 0.2;
+    opacity: 0.2;
 }
 
 .correct {
-  opacity: 1;
+    opacity: 1;
 }
 
+/*
 .underline {
-  text-decoration: underline;
   text-decoration-skip-ink: none;
   text-underline-offset: var(--width_underline);
   opacity: 1;
-  /*
   border-bottom: 2px solid black;
   animation: blink 1s infinite;
-  */
 }
+*/
 
 span {
-  display: inline-block;
-  padding-bottom: 0.2rem;
+    display: inline-block;
+    padding-bottom: 0.2rem;
 }
 
 span::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background-color: red;
-  width: var(--width_underline);
-  margin-left: auto;
-  margin-right: auto;
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: red;
+    width: var(--width_underline);
+    margin-left: auto;
+    margin-right: auto;
 }
 .hidden {
-  display: none;
+    display: none;
 }
 
 #p {
-  word-break: break-all;
-  margin: auto;
-  white-space: pre-wrap;
+    word-break: break-all;
+    margin: auto;
+    white-space: pre-wrap;
 }

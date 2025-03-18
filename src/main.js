@@ -140,9 +140,6 @@ $(function () {
     $p.empty();
     for (let i = 0; i < word.length; i++) {
       const $span = $("<span>").text(word[i]);
-      if (i === 0) {
-        $span.addClass("underline");
-      }
       $p.append($span);
     }
     $spans = $p.children();
@@ -152,25 +149,23 @@ $(function () {
   let inputTimeOut;
   let index = 0;
 
-  $textarea.on("input", (e) => {
+  $textarea.on("keypress", (e) => {
     clearTimeout(inputTimeOut);
     inputTimeOut = setTimeout(() => {
       let inputText = $textarea.val().toLowerCase().trim();
-      if (index < $spans.length) {
-        const $currentSpan = $spans.eq(index);
-        if (index > 0) $spans.eq(0).removeClass("underline");
-        const letter = $currentSpan.text();
-        /*if (inputText[inputText.length -1] == letter)*/ $currentSpan.addClass("correct");
-        $currentSpan.removeClass("underline");
-        index++;
-        if (index < $spans.length) {
-          $spans.eq(index).addClass("underline");
-        } else {
-          $textarea.val("");
-          index = 0;
-          nextword();
-        }
+      const $currentSpan = $spans.eq(index);
+      if (index > 0) $spans.eq(0).removeClass("underline");
+      const letter = $currentSpan.text();
+      /*if (inputText[inputText.length -1] == letter)*/ $currentSpan.addClass(
+        "correct",
+      );
+      //$currentSpan.removeClass("underline");
+      if (index >= $spans.length) {
+        $textarea.val("");
+        index = -1;
+        nextword();
       }
+      index++;
     }, DEBOUNCE);
   });
 
