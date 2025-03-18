@@ -176,7 +176,7 @@ $(function () {
   $copyRight.text(currentYear);
 */
 
-  $(document).on("click touchstart", function (event) {
+  $(document).on("click", function (event) {
     event.preventDefault();
     //$("textarea").trigger("focus");
 
