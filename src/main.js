@@ -179,7 +179,11 @@ $(function () {
   $(document).on("click touchstart", function (event) {
     event.preventDefault();
     //$("textarea").trigger("focus");
+
+clearTimeout(inputTimeOut);
+    inputTimeOut = setTimeout(() => {
     nextword();
+}, DEBOUNCE);
   });
   /*
    */
