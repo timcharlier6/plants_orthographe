@@ -149,6 +149,8 @@ $(function () {
   let inputTimeOut;
   let index = 0;
 
+  /*
+
   $textarea.on("keypress", (e) => {
     clearTimeout(inputTimeOut);
     inputTimeOut = setTimeout(() => {
@@ -156,7 +158,7 @@ $(function () {
       const $currentSpan = $spans.eq(index);
       if (index > 0) $spans.eq(0).removeClass("underline");
       const letter = $currentSpan.text();
-      /*if (inputText[inputText.length -1] == letter)*/ $currentSpan.addClass(
+      if (inputText[inputText.length -1] == letter) $currentSpan.addClass(
         "correct",
       );
       //$currentSpan.removeClass("underline");
@@ -172,10 +174,12 @@ $(function () {
   const currentYear = new Date().getFullYear();
   const $copyRight = $("#date");
   $copyRight.text(currentYear);
+*/
 
   $(document).on("click touchstart", function (event) {
     event.preventDefault();
-    $("textarea").trigger("focus");
+    //$("textarea").trigger("focus");
+    nextword();
   });
   /*
    */
